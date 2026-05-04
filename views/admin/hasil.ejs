@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hasil Survey — FTI Survey</title>
+  <link rel="stylesheet" href="https://unpkg.com/basecoat-ui@latest/dist/basecoat.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="navbar bg-white shadow-sm px-6 py-4 flex justify-between items-center">
+    <a href="/admin/dashboard" class="font-bold text-lg">FTI Survey — Admin</a>
+    <a href="/logout" class="btn btn-outline btn-sm">Keluar</a>
+  </nav>
+
+  <div class="container mx-auto px-6 py-8">
+
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h1 class="text-2xl font-bold"><%= survey.title %></h1>
+        <p class="text-gray-500">Total Responden: <%= totalResponden %> orang</p>
+      </div>
+
+      <!-- Tombol Download -->
+      <div class="flex gap-2">
+        <a href="/admin/survey/<%= survey.id %>/export/pdf"
+           class="btn btn-primary btn-sm">
+          Download PDF
+        </a>
+        <a href="/admin/survey/<%= survey.id %>/export/csv"
+           class="btn btn-outline btn-sm">
+          Download CSV
+        </a>
+      </div>
+    </div>
+
+    <!-- Rekap Per Pertanyaan -->
+    <% if (questions.length === 0) { %>
+      <div class="alert alert-info">Belum ada jawaban masuk.</div>
+    <% } else { %>
+      <% questions.forEach((q, index) => { %>
+        <div class="card p-6 mb-4 shadow-sm">
+
+          <p class="font-semibold mb-3">
+            <%= index + 1 %>. <%= q.question_text %>
+          </p>
+
+          <!-- Multiple choice: tampilkan distribusi -->
+          <% if (q.question_type === 'multiple_choice') { %>
+            <table class="table w-full">
+              <thead>
+                <tr>
+                  <th>Pilihan Jawaban</th>
+                  <th>Jumlah Memilih</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% q.distribusi.forEach(d => { %>
+                  <tr>
+                    <td><%= d.option_text %></td>
+                    <td><%= d.jumlah %> orang</td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+
+          <!-- Teks bebas: tampilkan semua jawaban -->
+          <% } else { %>
+            <ul class="flex flex-col gap-2">
+              <% q.answers.forEach(a => { %>
+                <li class="bg-gray-100 rounded px-4 py-2 text-sm">
+                  <span class="font-medium"><%= a.nama_user %>:</span>
+                  <%= a.answer_text %>
+                </li>
+              <% }) %>
+            </ul>
+          <% } %>
+
+        </div>
+      <% }) %>
+    <% } %>
+
+  </div>
+
+</body>
+</html>
