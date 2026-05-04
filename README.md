@@ -1,1 +1,0 @@
-# fti-survey-a13
