@@ -155,6 +155,9 @@ const exportPdf = (req, res) => {
     connection.query(sqlData, [surveyId], (err, data) => {
       if (err) return res.status(500).send('Terjadi kesalahan server.');
 
+      // Hitung total responden unik
+      const totalResponden = new Set(data.map(row => row.email_user)).size;
+
       // Buat PDF
       const doc = new PDFDocument({ margin: 50 });
 
@@ -172,7 +175,7 @@ const exportPdf = (req, res) => {
         align: 'center'
       });
       doc.moveDown();
-      doc.fontSize(11).font('Helvetica').text(`Total Responden: ${data.length > 0 ? 'Ada' : '0'}`);
+      doc.fontSize(11).font('Helvetica').text(`Total Responden: ${totalResponden} orang`);
       doc.moveDown();
 
       // Tulis data per baris
