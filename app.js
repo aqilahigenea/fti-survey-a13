@@ -3,6 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const path    = require('path');
+const bcrypt  = require('bcrypt');
+const db      = require('./config/db');
 const app     = express();
 
 // Template engine
@@ -16,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Session
 app.use(session({
-  secret:            process.env.SESSION_SECRET || 'fti-survey-secret',
+  secret:            process.env.SESSION_SECRET || 'ftisurvey2026',
   resave:            false,
   saveUninitialized: false,
   cookie: { maxAge: 1000 * 60 * 60 * 2 } // 2 jam
@@ -27,6 +29,31 @@ app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
 });
+
+// Auto-insert akun admin saat server pertama kali jalan
+function setupAdmin() {
+  db.query(
+    'SELECT * FROM users WHERE username = ?',
+    ['admin'],
+    (err, results) => {
+      if (err || results.length > 0) return;
+
+      bcrypt.hash('admin123', 10, (err, hash) => {
+        if (err) return;
+        db.query(
+          'INSERT INTO users (username, password, role) VALUES (?, ?, ?)',
+          ['admin', hash, 'admin'],
+          (err) => {
+            if (!err) console.log('✅ Akun admin dibuat: admin / admin123');
+          }
+        );
+      });
+    }
+  );
+}
+
+// Jalankan setup admin setelah konek DB
+setTimeout(setupAdmin, 1000);
 
 // Routes
 const authRoute   = require('./routes/auth');
