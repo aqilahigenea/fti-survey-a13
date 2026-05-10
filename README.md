@@ -1,29 +1,38 @@
 # FTI Survey — Modul A13 (Pengisian Survey)
 
-Aplikasi web survey online untuk civitas akademika Fakultas Teknologi Informasi. Modul A13 mencakup fitur pengisian survey oleh pengguna dan pengelolaan hasil survey oleh admin.
+Aplikasi web survey online untuk civitas akademika Fakultas Teknologi Informasi.
 
 ---
 
-## 👥 Anggota Kelompok
+## Anggota Kelompok
 
 | Nama | NIM | Tanggung Jawab |
 |------|-----|----------------|
-| Arifah Huwaina Azre | 2411521003 | Halaman pengguna (lihat & isi survey), validasi, export CSV |
-| Aqila Higenea Taufik | 2411522003 | Backend & database, halaman admin, export PDF |
+| Arifah Huwaina Azre | 2411521003 | Halaman pengguna, tampilan, validasi, export CSV |
+| Aqila Higenea Taufik | 2411522003 | Backend, database, halaman admin, export PDF |
 
 ---
 
-## 🛠️ Teknologi
+## Pembagian Tugas Tahap 1
+
+| Nama | Yang Dikerjakan |
+|------|----------------|
+| Arifah Huwaina Azre | Halaman login & register (EJS), halaman survey, styling CSS (Basecoat UI), routing autentikasi, logic login/register/logout |
+| Aqila Higenea Taufik | Setup app.js, koneksi database, middleware auth guard & ACL, routing admin & survey, halaman dashboard admin |
+
+---
+
+## Teknologi
 
 - **Backend:** ExpressJS (Node.js)
-- **Database:** MySQL (via `mysql2` — tanpa ORM)
-- **Template Engine:** EJS
-- **CSS Framework:** Custom (terinspirasi Basecoat UI)
+- **Database:** MySQL via `mysql2` (tanpa ORM)
+- **Template:** EJS
 - **Auth:** express-session + bcrypt
+- **UI:** Basecoat UI
 
 ---
 
-## 🚀 Cara Instalasi & Menjalankan
+## Cara Instalasi & Menjalankan
 
 ### 1. Clone repository
 ```bash
@@ -37,96 +46,72 @@ npm install
 ```
 
 ### 3. Setup database
-- Buka **Laragon** dan aktifkan MySQL
-- Buka **phpMyAdmin** di Laragon
-- Import file `database.sql` yang ada di root project
+- Buka **Laragon** → klik **Start All**
+- Buka **phpMyAdmin**
+- Klik tab **Import** → pilih file `database.sql` → klik **Go**
 
 ### 4. Setup file `.env`
-Buat file `.env` di root project (atau sesuaikan yang sudah ada):
+Pastikan isi `.env` seperti ini:
 ```
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=
 DB_NAME=fti_survey
-SESSION_SECRET=fti-survey-rahasia-2025
+SESSION_SECRET=ftisurvey2026
 PORT=3000
 ```
 
 ### 5. Jalankan aplikasi
 ```bash
-# Mode development (auto-restart)
 npm run dev
-
-# Mode production
-npm start
 ```
 
-### 6. Buka di browser
+### 6. Buka browser
 ```
 http://localhost:3000
 ```
 
 ---
 
-## 🔐 Akun Default
+## Cara Buat Akun Admin
 
-| Role | Username | Password |
-|------|----------|----------|
-| Admin | admin | admin123 |
-
-> Untuk akun user biasa, daftar melalui halaman `/register`
+1. Buka `http://localhost:3000/register`
+2. Daftar dengan username dan password bebas
+3. Buka **phpMyAdmin** → database `fti_survey` → tabel `users`
+4. Klik tab **SQL** → jalankan perintah ini (ganti `username_kamu`):
+```sql
+UPDATE users SET role = 'admin' WHERE username = 'username_kamu';
+```
+5. Sekarang login dengan akun tersebut → masuk sebagai admin ✅
 
 ---
 
-## 📁 Struktur Project
+## Struktur Project
 
 ```
 fti-survey-a13/
-├── config/
-│   └── db.js                  # Koneksi database MySQL
-├── controllers/
-│   ├── authController.js      # Login, register, logout
-│   ├── adminController.js     # Dashboard admin
-│   └── surveyController.js    # Halaman survey pengguna
-├── middleware/
-│   ├── auth.js                # Cek sudah login
-│   └── acl.js                 # Cek role (admin/user)
-├── routes/
-│   ├── auth.js                # Route login & register
-│   ├── admin.js               # Route halaman admin
-│   └── survey.js              # Route halaman survey
-├── views/
-│   ├── auth/
-│   │   ├── login.ejs
-│   │   └── register.ejs
-│   ├── admin/
-│   │   └── dashboard.ejs
-│   └── survey/
-│       └── index.ejs
-├── public/
-│   └── css/
-│       └── style.css
-├── database.sql               # Script setup database
-├── app.js                     # Entry point aplikasi
-├── package.json
-├── .env                       # Konfigurasi (tidak di-commit)
-└── .gitignore
+├── config/db.js          → koneksi database
+├── controllers/          → logika autentikasi & fitur
+├── middleware/           → auth guard & ACL
+├── routes/               → routing URL
+├── views/                → tampilan EJS
+├── public/css/           → stylesheet
+├── database.sql          → script setup database
+├── app.js                → entry point
+└── README.md
 ```
 
 ---
 
-## 📋 Fitur
+## Fitur
 
-### Tahap 1 (Minggu #11) — Sudah Selesai ✅
-- [x] Autentikasi: login, register, logout
-- [x] Session management
-- [x] ACL: middleware cek role admin & user
-- [x] Redirect otomatis berdasarkan role
-- [x] Tampilan login & register
+### Tahap 1 ✅
+- Login, register, logout
+- Session management
+- ACL (admin & user)
+- Tampilan login & register dengan Basecoat UI
 
-### Tahap 2 (Minggu #12-13) — Dalam Pengembangan 🚧
-- [ ] Pengguna dapat melihat daftar survey
-- [ ] Pengguna dapat mengisi survey
-- [ ] Validasi jawaban
-- [ ] Admin dapat melihat rekap hasil
-- [ ] Admin dapat export CSV & PDF
+### Tahap 2 🚧
+- Pengguna isi survey
+- Admin lihat rekap
+- Export CSV & PDF
