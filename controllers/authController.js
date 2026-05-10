@@ -21,7 +21,9 @@ exports.prosesLogin = (req, res) => {
     return res.redirect('/login?error=empty');
   }
 
-  db.query('SELECT * FROM users WHERE username = ?', [username],
+  db.query(
+    'SELECT * FROM users WHERE username = ?',
+    [username],
     async (err, results) => {
       if (err)                  return res.redirect('/login?error=server');
       if (results.length === 0) return res.redirect('/login?error=notfound');
