@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin — FTI Survey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="app-body">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="logo-box-dark">
+        <svg width="22" height="16" viewBox="0 0 28 22" fill="none">
+          <rect x="0" y="14" width="6" height="8" rx="1.5" fill="#0D4A3E" opacity="0.4"/>
+          <rect x="8" y="8" width="6" height="14" rx="1.5" fill="#0D4A3E" opacity="0.7"/>
+          <rect x="16" y="3" width="6" height="19" rx="1.5" fill="#0D4A3E"/>
+          <rect x="24" y="0" width="4" height="22" rx="1.5" fill="#0D4A3E" opacity="0.3"/>
+        </svg>
+      </div>
+      <span class="logo-text-dark">FTI Survey</span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-user">Halo, <strong><%= user.username %></strong><span class="badge-admin">ADMIN</span></span>
+      <a href="/logout" class="btn-logout">Keluar</a>
+    </div>
+  </nav>
+
+  <div class="app-container">
+    <!-- Kartu selamat datang -->
+    <div class="welcome-card">
+      <div class="wc-deco wc-deco-1"></div>
+      <div class="wc-deco wc-deco-2"></div>
+      <div class="welcome-left">
+        <div class="welcome-greeting">Selamat datang, <%= user.username %>! 👋</div>
+        <div class="welcome-role">Administrator · FTI Survey A13</div>
+      </div>
+    </div>
+
+    <!-- Placeholder fitur tahap 2 -->
+    <div class="coming-soon-card">
+      <div class="cs-icon-svg">
+        <svg width="52" height="40" viewBox="0 0 28 22" fill="none">
+          <rect x="0" y="14" width="6" height="8" rx="1.5" fill="#0D9488" opacity="0.4"/>
+          <rect x="8" y="8" width="6" height="14" rx="1.5" fill="#0D9488" opacity="0.7"/>
+          <rect x="16" y="3" width="6" height="19" rx="1.5" fill="#0D9488"/>
+          <rect x="24" y="0" width="4" height="22" rx="1.5" fill="#0D9488" opacity="0.3"/>
+        </svg>
+      </div>
+      <h3>Fitur Sedang Dikembangkan</h3>
+      <p>Rekap hasil survey, data responden, dan fitur download akan tersedia di Tahap 2.</p>
+      <div class="cs-features">
+        <div class="cs-item">Rekap hasil survey</div>
+        <div class="cs-item">Data responden</div>
+        <div class="cs-item">Export PDF & CSV</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
