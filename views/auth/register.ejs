@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar — FTI Survey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,300;0,700;1,300;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal-600: #0d9488; --teal-500: #14b8a6;
+      --amber-400: #fbbf24; --slate-800: #1e293b; --slate-700: #334155;
+      --slate-400: #94a3b8; --slate-300: #cbd5e1; --slate-200: #e2e8f0;
+      --slate-50: #f8fafc; --white: #ffffff;
+      --rose-500: #f43f5e; --rose-50: #fff1f2;
+      --ff: 'Plus Jakarta Sans', sans-serif; --ff-serif: 'Fraunces', serif;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--ff); background: var(--slate-50); color: var(--slate-800); min-height: 100vh; display: flex; }
+
+    .panel-left {
+      width: 44%; min-height: 100vh;
+      background: linear-gradient(155deg, #0f766e 0%, #134e4a 100%);
+      position: relative; display: flex; flex-direction: column;
+      justify-content: space-between; padding: 48px 52px; overflow: hidden; flex-shrink: 0;
+    }
+    .blob { position: absolute; border-radius: 50%; opacity: 0.1; animation: blobMove 8s ease-in-out infinite; }
+    .blob-1 { width: 280px; height: 280px; background: #fff; top: -60px; right: -60px; }
+    .blob-2 { width: 180px; height: 180px; background: var(--amber-400); bottom: 100px; left: -40px; animation-delay: 4s; opacity: 0.18; }
+    @keyframes blobMove { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(10px,-14px) scale(1.04); } }
+    .dot-grid { position: absolute; top: 180px; left: 0; width: 100%; height: 200px; background-image: radial-gradient(circle, rgba(255,255,255,0.18) 1px, transparent 1px); background-size: 22px 22px; pointer-events: none; }
+    .left-top { position: relative; z-index: 2; }
+    .logo { display: flex; align-items: center; gap: 12px; margin-bottom: 52px; }
+    .logo-icon { width: 44px; height: 44px; background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.25); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+    .logo-name { font-family: var(--ff-serif); font-size: 20px; font-weight: 700; color: white; }
+    .left-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 14px; }
+    .left-heading { font-family: var(--ff-serif); font-size: 32px; font-weight: 700; color: white; line-height: 1.3; margin-bottom: 16px; }
+    .left-heading em { font-style: italic; color: var(--amber-400); }
+    .left-desc { font-size: 13.5px; color: rgba(255,255,255,0.7); line-height: 1.75; margin-bottom: 36px; max-width: 280px; }
+    /* Benefit cards */
+    .benefit-list { display: flex; flex-direction: column; gap: 10px; }
+    .benefit-card { display: flex; align-items: flex-start; gap: 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; padding: 14px 16px; }
+    .benefit-icon { width: 32px; height: 32px; background: rgba(255,255,255,0.12); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .benefit-title { font-size: 13px; font-weight: 700; color: white; margin-bottom: 2px; }
+    .benefit-sub { font-size: 12px; color: rgba(255,255,255,0.6); }
+    .left-bottom { position: relative; z-index: 2; font-size: 11px; color: rgba(255,255,255,0.4); font-weight: 500; }
+
+    .panel-right { flex: 1; display: flex; align-items: center; justify-content: center; padding: 48px 40px; background: var(--white); }
+    .form-box { width: 100%; max-width: 400px; }
+    .form-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--teal-500); margin-bottom: 10px; }
+    .form-title { font-family: var(--ff-serif); font-size: 28px; font-weight: 700; color: var(--slate-800); margin-bottom: 6px; letter-spacing: -0.5px; }
+    .form-sub { font-size: 13.5px; color: var(--slate-400); line-height: 1.65; margin-bottom: 26px; }
+    .divider { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+    .divider-line { flex: 1; height: 1px; background: var(--slate-200); }
+    .divider-text { font-size: 11.5px; color: var(--slate-400); font-weight: 500; white-space: nowrap; }
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-size: 12.5px; font-weight: 700; color: var(--slate-700); margin-bottom: 7px; }
+    .field input { width: 100%; padding: 11px 14px; border: 1.5px solid var(--slate-200); border-radius: 10px; font-family: var(--ff); font-size: 14px; color: var(--slate-800); background: var(--white); outline: none; transition: all 0.18s; }
+    .field input:focus { border-color: var(--teal-500); box-shadow: 0 0 0 3px rgba(20,184,166,0.12); }
+    .field input::placeholder { color: var(--slate-300); }
+    .pwd-wrap { position: relative; }
+    .pwd-wrap input { padding-right: 44px; }
+    .eye-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--slate-400); display: flex; align-items: center; transition: color 0.15s; }
+    .eye-btn:hover { color: var(--teal-600); }
+    /* Password strength bar */
+    .pwd-strength { display: none; align-items: center; gap: 5px; margin-top: 9px; }
+    .pwd-bar { flex: 1; height: 3px; background: var(--slate-200); border-radius: 99px; transition: background 0.2s; }
+    .pwd-bar.weak { background: var(--rose-500); }
+    .pwd-bar.medium { background: #f59e0b; }
+    .pwd-bar.strong { background: var(--teal-500); }
+    .strength-text { font-size: 11px; font-weight: 700; margin-left: 4px; }
+    .btn-primary { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--teal-600), #0f766e); border: none; border-radius: 10px; color: white; font-family: var(--ff); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; box-shadow: 0 4px 14px rgba(13,148,136,0.3); position: relative; overflow: hidden; margin-top: 6px; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(13,148,136,0.4); }
+    .btn-primary.loading .btn-text { opacity: 0; }
+    .btn-primary.loading .btn-spinner { display: block; }
+    .btn-spinner { display: none; width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; position: absolute; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3); transform: scale(0); animation: ripple-anim 0.55s linear; pointer-events: none; }
+    @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
+    .form-link { text-align: center; margin-top: 20px; font-size: 13px; color: var(--slate-400); font-weight: 500; }
+    .form-link a { color: var(--teal-600); font-weight: 700; text-decoration: none; }
+    .form-link a:hover { text-decoration: underline; }
+    .msg-error { background: var(--rose-50); border: 1.5px solid #fecdd3; color: var(--rose-500); border-radius: 10px; padding: 11px 14px; font-size: 13px; font-weight: 600; margin-bottom: 18px; }
+    @media (max-width: 820px) { .panel-left { display: none; } .panel-right { padding: 32px 24px; } }
+  </style>
+</head>
+<body>
+
+<div class="panel-left">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="dot-grid"></div>
+  <div class="left-top">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <rect x="4" y="3" width="14" height="17" rx="2.5" stroke="white" stroke-width="1.5"/>
+          <path d="M8 3.5V5.5H14V3.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 10h6M8 13.5h4" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="logo-name">FTI Survey</span>
+    </div>
+    <div class="left-eyebrow">Pendaftaran Akun</div>
+    <div class="left-heading">Bergabung dan mulai <em>berkontribusi</em></div>
+    <div class="left-desc">Buat akun untuk mengakses survey yang tersedia di Fakultas Teknologi Informasi.</div>
+    <div class="benefit-list">
+      <div class="benefit-card">
+        <div class="benefit-icon"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1A6.5 6.5 0 1 1 7.5 14A6.5 6.5 0 0 1 7.5 1z" stroke="white" stroke-width="1.2"/><path d="M5 7.5l2 2 3-3" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="benefit-title">Mudah dan cepat</div><div class="benefit-sub">Isi survey hanya dalam beberapa menit</div></div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="2" y="6" width="11" height="8" rx="1.5" stroke="white" stroke-width="1.2"/><path d="M5 6V5a2.5 2.5 0 0 1 5 0v1" stroke="white" stroke-width="1.2"/></svg></div>
+        <div><div class="benefit-title">Data terlindungi</div><div class="benefit-sub">Jawaban kamu aman dan terenkripsi</div></div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 8.5L5 12 13 4" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="benefit-title">Langsung terkonfirmasi</div><div class="benefit-sub">Notifikasi sukses setelah jawaban terkirim</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="left-bottom">Kelompok A13 · Pemrograman Web · 2026</div>
+</div>
+
+<div class="panel-right">
+  <div class="form-box">
+    <div class="form-eyebrow">Pendaftaran</div>
+    <div class="form-title">Buat akun baru</div>
+    <div class="form-sub">Isi data di bawah untuk membuat akun.</div>
+
+    <!-- Pesan error -->
+    <% if (pesan) { %>
+      <div class="msg-error">
+        <% if (pesan === 'empty')    { %>Semua field wajib diisi.<% } %>
+        <% if (pesan === 'mismatch') { %>Password dan konfirmasi tidak cocok.<% } %>
+        <% if (pesan === 'short')    { %>Password minimal 6 karakter.<% } %>
+        <% if (pesan === 'exists')   { %>Username sudah digunakan.<% } %>
+        <% if (pesan === 'server')   { %>Terjadi kesalahan server.<% } %>
+      </div>
+    <% } %>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">daftar dengan nama pengguna</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- Form register -->
+    <form method="POST" action="/register" id="registerForm">
+      <div class="field">
+        <label for="username">Nama Pengguna</label>
+        <input type="text" id="username" name="username" placeholder="Buat nama pengguna unik" required autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="password">Kata Sandi</label>
+        <div class="pwd-wrap">
+          <input type="password" id="password" name="password" placeholder="Minimal 6 karakter" required>
+          <button type="button" class="eye-btn" id="eyeToggle">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.4"/>
+              <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.4"/>
+            </svg>
+          </button>
+        </div>
+        <!-- Indikator kekuatan password -->
+        <div class="pwd-strength" id="pwdStrength">
+          <div class="pwd-bar" id="bar1"></div>
+          <div class="pwd-bar" id="bar2"></div>
+          <div class="pwd-bar" id="bar3"></div>
+          <div class="pwd-bar" id="bar4"></div>
+          <span class="strength-text" id="strengthText"></span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="konfirmasi">Konfirmasi Kata Sandi</label>
+        <div class="pwd-wrap">
+          <input type="password" id="konfirmasi" name="konfirmasi" placeholder="Ulangi kata sandi" required>
+          <button type="button" class="eye-btn" id="eyeToggle2">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.4"/>
+              <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.4"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn-primary" id="submitBtn">
+        <span class="btn-text">Daftar sekarang</span>
+        <div class="btn-spinner"></div>
+      </button>
+    </form>
+
+    <div class="form-link">Sudah punya akun? <a href="/login">Masuk di sini</a></div>
+  </div>
+</div>
+
+<script>
+  // Toggle password
+  document.getElementById('eyeToggle').addEventListener('click', function() {
+    const p = document.getElementById('password');
+    p.type = p.type === 'password' ? 'text' : 'password';
+  });
+  document.getElementById('eyeToggle2').addEventListener('click', function() {
+    const p = document.getElementById('konfirmasi');
+    p.type = p.type === 'password' ? 'text' : 'password';
+  });
+
+  // Indikator kekuatan password
+  document.getElementById('password').addEventListener('input', function() {
+    const val = this.value;
+    const strength = document.getElementById('pwdStrength');
+    const bars = ['bar1','bar2','bar3','bar4'].map(id => document.getElementById(id));
+    const txt = document.getElementById('strengthText');
+    if (!val) { strength.style.display = 'none'; return; }
+    strength.style.display = 'flex';
+    let score = 0;
+    if (val.length >= 6) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+    bars.forEach((b, i) => {
+      b.className = 'pwd-bar';
+      if (i < score) b.classList.add(score <= 1 ? 'weak' : score <= 2 ? 'medium' : 'strong');
+    });
+    const labels = ['','Lemah','Cukup','Kuat','Sangat kuat'];
+    const colors = ['','#f43f5e','#f59e0b','#14b8a6','#0d9488'];
+    txt.textContent = labels[score];
+    txt.style.color = colors[score];
+  });
+
+  // Ripple & loading
+  document.getElementById('submitBtn').addEventListener('click', function(e) {
+    const btn = this, rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 2;
+    const r = document.createElement('span');
+    r.className = 'ripple';
+    r.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px`;
+    btn.appendChild(r);
+    setTimeout(() => r.remove(), 600);
+  });
+  document.getElementById('registerForm').addEventListener('submit', function() {
+    const btn = document.getElementById('submitBtn');
+    btn.classList.add('loading');
+    btn.disabled = true;
+  });
+</script>
+</body>
+</html>
