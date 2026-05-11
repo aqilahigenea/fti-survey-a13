@@ -43,5 +43,14 @@ app.use('/', authRoute);
 app.use('/survey', surveyRoute);
 app.use('/admin', adminRoute);
 
+// Error handling middleware (harus paling bawah)
+app.use((err, req, res, next) => {
+  console.error('[ERROR]', err.message);
+  res.status(err.status || 500).send(err.message || 'Terjadi kesalahan server!');
+});
+
 // Jalankan server
-const PORT = process.env.PORT || 3
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Server berjalan di http://localhost:${PORT}`);
+});
