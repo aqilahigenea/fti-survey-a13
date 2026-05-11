@@ -15,15 +15,19 @@ exports.tampilLogin = (req, res) => {
 
 // ── Proses Login ─────────────────────────────────────────────
 exports.prosesLogin = (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  if (!username || !password) {
+  if (!email || !password) {
     return res.redirect('/login?error=empty');
   }
 
   db.query(
-    'SELECT * FROM users WHERE username = ?',
-    [username],
+    `SELECT u.*, r.name as role 
+     FROM users u
+     LEFT JOIN model_has_roles mhr ON mhr.model_id = u.id AND mhr.model_type = 'App\\\\Models\\\\User'
+     LEFT JOIN roles r ON r.id = mhr.role_id
+     WHERE u.email = ?`,
+    [email],
     async (err, results) => {
       if (err)                  return res.redirect('/login?error=server');
       if (results.length === 0) return res.redirect('/login?error=notfound');
@@ -33,9 +37,10 @@ exports.prosesLogin = (req, res) => {
       if (!cocok) return res.redirect('/login?error=wrongpass');
 
       req.session.user = {
-        id:       user.id,
-        username: user.username,
-        role:     user.role
+        id:    user.id,
+        name:  user.name,
+        email: user.email,
+        role:  user.role
       };
 
       user.role === 'admin'
@@ -43,44 +48,6 @@ exports.prosesLogin = (req, res) => {
         : res.redirect('/survey');
     }
   );
-};
-
-// ── Tampil Register ──────────────────────────────────────────
-exports.tampilRegister = (req, res) => {
-  if (req.session.user) {
-    return req.session.user.role === 'admin'
-      ? res.redirect('/admin/dashboard')
-      : res.redirect('/survey');
-  }
-  const pesan = req.query.error || null;
-  res.render('auth/register', { pesan });
-};
-
-// ── Proses Register ──────────────────────────────────────────
-exports.prosesRegister = (req, res) => {
-  const { username, password, konfirmasi } = req.body;
-
-  if (!username || !password || !konfirmasi)
-    return res.redirect('/register?error=empty');
-
-  if (password !== konfirmasi)
-    return res.redirect('/register?error=mismatch');
-
-  if (password.length < 6)
-    return res.redirect('/register?error=short');
-
-  bcrypt.hash(password, 10, (err, hash) => {
-    if (err) return res.redirect('/register?error=server');
-
-    db.query(
-      'INSERT INTO users (username, password, role) VALUES (?, ?, "user")',
-      [username, hash],
-      (err) => {
-        if (err) return res.redirect('/register?error=exists');
-        res.redirect('/login?success=registered');
-      }
-    );
-  });
 };
 
 // ── Logout ───────────────────────────────────────────────────
