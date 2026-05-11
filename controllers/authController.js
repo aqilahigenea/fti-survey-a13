@@ -8,7 +8,7 @@ exports.tampilLogin = (req, res) => {
       ? res.redirect('/admin/dashboard')
       : res.redirect('/survey');
   }
-  const pesan = req.query.error || null;
+  const pesan  = req.query.error   || null;
   const sukses = req.query.success || null;
   res.render('auth/login', { pesan, sukses });
 };
@@ -24,7 +24,7 @@ exports.prosesLogin = (req, res) => {
   db.query(
     `SELECT u.*, r.name as role 
      FROM users u
-     LEFT JOIN model_has_roles mhr ON mhr.model_id = u.id AND mhr.model_type = 'App\\\\Models\\\\User'
+     LEFT JOIN model_has_roles mhr ON mhr.model_id = u.id
      LEFT JOIN roles r ON r.id = mhr.role_id
      WHERE u.email = ?`,
     [email],
